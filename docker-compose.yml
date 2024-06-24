@@ -2,18 +2,22 @@ version: '3.8'
 
 services:
   backend:
+    image: final-project/backend:latest
     build: ./back
+    deploy:
+      replicas: 2
     ports:
       - "3000:3000"
     environment:
       - MONGODB_CONNECTION_STRING=mongodb://mongo:27017/tasks
     networks:
       - app-network
-    depends_on:
-      - mongo
 
   frontend:
+    image: final-project/frontend:latest
     build: ./front
+    deploy:
+      replicas: 2
     ports:
       - "80:80"
     networks:
@@ -21,6 +25,8 @@ services:
 
   mongo:
     image: mongo:latest
+    deploy:
+      replicas: 1
     ports:
       - "27017:27017"
     volumes:
@@ -30,7 +36,7 @@ services:
 
 networks:
   app-network:
-    driver: bridge
+    driver: overlay
 
 volumes:
   mongo-data:
