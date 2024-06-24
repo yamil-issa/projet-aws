@@ -33,7 +33,7 @@ const Board = () => {
     if (userId) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/tasks/${userId}`);
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/tasks/${userId}`);
           const data = response.data;
           setTasks(data);
         } catch (error) {
@@ -55,8 +55,8 @@ const Board = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/tasks/${userId}`, newTask);
-      const response = await axios.get(`http://localhost:5000/tasks/${userId}`);
+      await axios.post(`${process.env.REACT_APP_API_URL}/tasks/${userId}`, newTask);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/tasks/${userId}`);
       const data = response.data;
       setTasks(data);
       setShowModal(false); // Close modal after submission
@@ -72,10 +72,10 @@ const Board = () => {
 
   const handleTaskCompletion = async (taskId: string) => {
     try {
-      await axios.put(`http://localhost:5000/tasks/${taskId}`, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`, {
         completed: true,
       });
-      const response = await axios.get(`http://localhost:5000/tasks/${userId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/tasks/${userId}`);
       const data = response.data;
       setTasks(data);
     } catch (error) {
@@ -85,7 +85,7 @@ const Board = () => {
 
   const handleDeleteTask = async (taskId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/tasks/${taskId}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`);
       const updatedTasks = tasks.filter((task) => task._id !== taskId);
       setTasks(updatedTasks);
     } catch (error) {

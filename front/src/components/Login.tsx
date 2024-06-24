@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/users/login', { email, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, { email, password });
       let token = response.data.token;
 
       // Redirect to Kanban page after successful login
