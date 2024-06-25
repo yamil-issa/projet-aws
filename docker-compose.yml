@@ -6,6 +6,10 @@ services:
     build: ./back
     deploy:
       replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
     ports:
       - "3000:3000"
     environment:

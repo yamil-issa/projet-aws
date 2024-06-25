@@ -1,0 +1,35 @@
+---
+- name: Configurer les instances EC2 avec Docker Swarm (Manager)
+  hosts: tag_Name_swarm-manager
+  become: true
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Initialize Docker Swarm sur le nœud manager
+      command: docker swarm init
+      become: true
+      ignore_errors: yes
+
+- name: Configurer les instances EC2 avec Docker Swarm (Workers)
+  hosts: tag_Name_swarm-worker
+  become: true
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Join Docker Swarm sur les nœuds workers
+      command: docker swarm join --token $(ssh -o StrictHostKeyChecking=no ubuntu@{{ hostvars[groups['tag_Name_swarm-manager'][0]].ansible_host }} 'docker swarm join-token worker -q') {{ hostvars[groups['tag_Name_swarm-manager'][0]].ansible_host }}:2377
+      become: true
