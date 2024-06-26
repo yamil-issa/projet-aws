@@ -95,7 +95,12 @@ scp -i ~/.ssh/myKey -r ./back ec2-user@<manager_public_ip>:~
 
 ### 3. Déploiement de l'Application avec Docker Compose
 
-- Sur l'instance Manager, copier le fichier docker-compose.yml avec le contenu fourni.
+- Sur l'instance Manager, copier le fichier docker-compose.yml avec le contenu fourni :
+
+```bash
+scp -i ~/.ssh/myKey ./docker-compose.yml ec2-user@<manager_public_ip>:~
+```
+
 - Déployer les services :
 
 ```bash
